@@ -2,39 +2,86 @@ class CalcController {
 
     constructor(){
 
-        this._displayCalc = "0";
+        this._locale = 'pt-BR';
+        this._displayCalcEl = document.querySelector("#display");
+        this._dateEl = document.querySelector("#data");
+        this._timeEl = document.querySelector("#hora");
         this._currentDate;
         this.initialize();
-
+        this.initButtonsEvents();
+        
     }
 
     initialize(){
 
-        let displayCalcEl = document.querySelector("#display");
-        let dateEl = document.querySelector("#data");
-        let timeEl = document.querySelector("#hora");
+            setInterval(() =>{
 
-        displayCalcEl.innerHTML = "4567";
-        dateEl.innerHTML = "15/04/2021";
-        timeEl.innerHTML = "11:14";
+              this.setDisplayDateTime();
+               
+            }, 1000);
+        
+        }
 
+         initButtonsEvents(){
+
+        let buttons = document.querySelectorAll("#buttons > g, #parts > g");
+
+        buttons.forEach((btn, index)=>{
+
+            btn.addEventListener('click', e => {
+
+                console.log(btn.className.baseVal.replace("btn-",""));
+
+            })
+
+        })
+
+    }
+
+    setDisplayDateTime (){
+
+          this.displayDate = this.currentDate.toLocaleDateString(this._locale,{
+            day: "2-digit",
+            month: "long",
+            year: "numeric"
+          });
+          this.displayTime = this.currentDate.toLocaleTimeString(this._locale);
+           
+    }
+
+    get displayTime() {
+        return this._timeEl.innerHTML;
+    }
+
+    set displayTime(value) {
+        return this._timeEl.innerHTML = value;
+    }
+
+    get displayDate() {
+
+        return this._dateEl.innerHTML;    
+    }
+
+    set displayDate(value) {
+
+        return this._dateEl.innerHTML = value;    
     }
 
     get displayCalc(){
 
-        return this._displayCalc;
+        return this._displayCalcEl.innerHTML;
 
     }
 
     set displayCalc(valor){
 
-        this._displayCalc = valor;
+        this._displayCalcEl.innerHTML = valor;
 
     }
 
     get currentDate(){
 
-        return this._currentDate;
+        return new Date();
 
     }
 
